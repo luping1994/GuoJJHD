@@ -35,7 +35,7 @@
                 android:gravity="center"
                 android:text="返回"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <Button
