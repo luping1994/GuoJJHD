@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="190dp"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="152dp"
+        android:layout_height="152dp"
+        android:layout_centerInParent="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_room" />
+
+
+    <TextView
+        android:gravity="center"
+        android:background="@drawable/room_name_bg"
+        android:layout_marginTop="8dp"
+        android:id="@+id/name"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="客厅"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+</RelativeLayout>
