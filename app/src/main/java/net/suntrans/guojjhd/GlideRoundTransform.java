@@ -23,9 +23,9 @@ public class GlideRoundTransform extends BitmapTransformation {
         this(context, 4);
     }
 
-    public GlideRoundTransform(Context context, int dp) {
+    public GlideRoundTransform(Context context, int px) {
         super(context);
-        this.radius = Resources.getSystem().getDisplayMetrics().density * dp;
+        this.radius = px;
     }
 
     @Override

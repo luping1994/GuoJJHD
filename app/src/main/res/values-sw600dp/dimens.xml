@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="huangjiang_text_size">10sp</dimen>
+    <dimen name="item_room_width">190dp</dimen>
+    <dimen name="item_room_img_width">152dp</dimen>
+    <dimen name="item_room_text_size">105dp</dimen>
+    <dimen name="item_room_img_radio_size">8dp</dimen>
+
+
+    <dimen name="item_room_detail_size">170dp</dimen>
+    <dimen name="item_room_detail_img_size">87.5dp</dimen>
+
+    <dimen name="item_home_page_devices_size">96dp</dimen>
+    <dimen name="item_homepage_devices_img_size">56dp</dimen>
+    <dimen name="item_homepage_devices_text_size">10sp</dimen>
+
+
+    <dimen name="wendu_text_size">12dp</dimen>
+    <dimen name="wendu_really_text_size">16dp</dimen>
+    <dimen name="wendu_env_text_size">16dp</dimen>
+    <dimen name="yongdianliang_unit_text_size">10dp</dimen>
+    <dimen name="huijia_text_size">14dp</dimen>
+    <dimen name="device_status_text_size">12dp</dimen>
+
+</resources>

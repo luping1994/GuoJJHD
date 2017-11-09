@@ -13,88 +13,103 @@
             android:scaleType="fitXY"
             android:src="@drawable/bg_keting" />
 
-        <LinearLayout
-            android:id="@+id/fanhui"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="22dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_arrow_left" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:gravity="center"
-                android:text="返回"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/bg_room_detail_bg"
-            android:text="客厅"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="14">
 
+                <LinearLayout
+                    android:id="@+id/fanhui"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="35dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_left" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13.3333dp"
+                        android:gravity="center"
+                        android:text="返回"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_room_detail_bg"
+                    android:text="客厅"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="66"
+                android:layout_weight="65"
                 android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/lightRecyclerView"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:layout_weight="1"
+                    android:layout_marginBottom="78dp"
+                    android:layout_weight="50"
                     android:background="@drawable/bg_socket"
+                    android:orientation="horizontal"
                     app:layoutManager="GridLayoutManager"
                     app:spanCount="2">
 
                 </android.support.v7.widget.RecyclerView>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="14" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/socketRecyclerView"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:layout_weight="1"
+                    android:layout_marginBottom="78dp"
+                    android:layout_weight="50"
                     android:background="@drawable/bg_socket"
+                    android:orientation="horizontal"
                     app:layoutManager="GridLayoutManager"
                     app:spanCount="2">
 
                 </android.support.v7.widget.RecyclerView>
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7" />
             </LinearLayout>
 
         </LinearLayout>
