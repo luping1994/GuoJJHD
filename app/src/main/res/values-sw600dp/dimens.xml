@@ -15,6 +15,7 @@
 
 
     <dimen name="wendu_text_size">30sp</dimen>
+    <dimen name="wendu_text_size1">25sp</dimen>
     <dimen name="wendu_env_text_size">16dp</dimen>
     <dimen name="yongdianliang_unit_text_size">14sp</dimen>
     <dimen name="huijia_text_size">18sp</dimen>
@@ -31,5 +32,6 @@
     <dimen name="de_margin">10dp</dimen>
     <dimen name="exit_button_size">35dp</dimen>
     <dimen name="title_size">24sp</dimen>
+    <dimen name="room_tx_bgradius">10</dimen>
 
 </resources>

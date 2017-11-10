@@ -25,6 +25,7 @@
                 android:layout_weight="9">
 
                 <TextView
+                    android:gravity="center"
                     android:id="@+id/familyname"
                     android:text="我的家"
                     android:textSize="@dimen/title_size"
@@ -257,12 +258,12 @@
                             android:paddingLeft="@dimen/env_padding"
                             android:paddingRight="@dimen/env_padding">
 
-                            <RelativeLayout
+                            <LinearLayout
+                                android:gravity="center"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="horizontal"
-                                android:text="本月用电"
+                                android:layout_height="0dp"
+                                android:layout_weight="1.5"
+                                android:orientation="vertical"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/wendu_text_size">
 
@@ -273,23 +274,20 @@
                                     android:layout_centerInParent="true"
                                     android:text="160kw·h"
                                     android:textColor="@color/white"
-                                    android:textSize="@dimen/wendu_text_size" />
-
+                                    android:textSize="@dimen/wendu_text_size1" />
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_below="@+id/benyueyongdian"
-                                    android:layout_centerInParent="true"
                                     android:text="当月用电量"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/dangyue_textsize" />
 
-                            </RelativeLayout>
+                            </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:layout_weight="3"
+                                android:layout_weight="2"
                                 android:orientation="vertical">
 
                                 <LinearLayout
@@ -305,7 +303,7 @@
                                         android:gravity="left"
                                         android:text="今日用电"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/huangjiang_text_size" />
+                                        android:textSize="@dimen/huangjiang_text_size1" />
 
                                     <TextView
                                         android:id="@+id/jinriyongdian"
@@ -315,7 +313,7 @@
                                         android:gravity="right"
                                         android:text="--"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/huangjiang_text_size" />
+                                        android:textSize="@dimen/huangjiang_text_size1" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -332,7 +330,7 @@
                                         android:gravity="left"
                                         android:text="昨日用电"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/huangjiang_text_size" />
+                                        android:textSize="@dimen/huangjiang_text_size1" />
 
                                     <TextView
                                         android:id="@+id/zuoriyongdian"
@@ -343,7 +341,7 @@
                                         android:gravity="right"
                                         android:text="--"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/huangjiang_text_size" />
+                                        android:textSize="@dimen/huangjiang_text_size1" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -360,7 +358,7 @@
                                         android:gravity="left"
                                         android:text="负载"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/huangjiang_text_size" />
+                                        android:textSize="@dimen/huangjiang_text_size1" />
 
                                     <TextView
                                         android:id="@+id/fuzai"
@@ -370,7 +368,7 @@
                                         android:gravity="right"
                                         android:text="--"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/huangjiang_text_size" />
+                                        android:textSize="@dimen/huangjiang_text_size1" />
                                 </LinearLayout>
                             </LinearLayout>
 

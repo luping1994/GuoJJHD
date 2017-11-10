@@ -34,5 +34,7 @@
     <dimen name="de_margin">10dp</dimen>
     <dimen name="exit_button_size">35dp</dimen>
     <dimen name="title_size">30sp</dimen>
+    <dimen name="wendu_text_size1">15sp</dimen>
+    <dimen name="room_tx_bgradius">5</dimen>
 
 </resources>

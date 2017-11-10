@@ -17,17 +17,16 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_room" />
 
-        <TextView
+        <net.suntrans.guojjhd.widgets.SingleLineZoomTextView
+            android:layout_centerInParent="true"
             android:id="@+id/name"
             android:layout_width="@dimen/item_room_text_size"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
-            android:background="#00ff00"
+            android:background="@drawable/room_name_bg"
             android:gravity="center"
-            android:text="客厅"
-            android:textColor="#f00"
+            android:text=""
+            android:textColor="@color/white"
             android:textSize="@dimen/item_room_textsize" />
     </RelativeLayout>
 

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -11,11 +12,13 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -69,10 +72,10 @@ public class MainActivity extends RxAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        api= RetrofitHelper.getApi();
-        envRefreshTime = App.getSharedPreferences().getLong("envRefreshTime",  10*60*1000);
-        energyRefreshTime = App.getSharedPreferences().getLong("energyRefreshTime",  10*60*1000);
-        lightRefreshTime = App.getSharedPreferences().getLong("lightRefreshTime", 10*60*1000);
+        api = RetrofitHelper.getApi();
+        envRefreshTime = App.getSharedPreferences().getLong("envRefreshTime", 10 * 60 * 1000);
+        energyRefreshTime = App.getSharedPreferences().getLong("energyRefreshTime", 10 * 60 * 1000);
+        lightRefreshTime = App.getSharedPreferences().getLong("lightRefreshTime", 10 * 60 * 1000);
 
         String familyname = App.getSharedPreferences().getString("familyname", "我的家");
         binding.familyname.setText(familyname);
@@ -256,7 +259,8 @@ public class MainActivity extends RxAppCompatActivity {
         public void run() {
             getEnvData();
         }
-    }; private TimerTask task2 = new TimerTask() {
+    };
+    private TimerTask task2 = new TimerTask() {
         @Override
         public void run() {
             getEnergyData();
@@ -272,23 +276,44 @@ public class MainActivity extends RxAppCompatActivity {
 
     private class RoomAdapter extends BaseQuickAdapter<RoomEntity.DataBean.ListsBean, BaseViewHolder> {
 
+        private int width;
+
         public RoomAdapter(int layoutResId, @Nullable List<RoomEntity.DataBean.ListsBean> data) {
             super(layoutResId, data);
+            width = getResources().getDimensionPixelSize(R.dimen.item_room_text_size);
         }
 
         @Override
         protected void convert(BaseViewHolder helper, RoomEntity.DataBean.ListsBean item) {
-            helper.setText(R.id.name, item.name)
+
+            helper.setText(R.id.name,item.name)
                     .addOnClickListener(R.id.image);
             ImageView imageView = helper.getView(R.id.image);
-
-
+            TextView textview = helper.getView(R.id.name);
             Glide.with(MainActivity.this)
                     .load(item.img_url)
                     .placeholder(R.drawable.ic_room)
                     .transform(new GlideRoundTransform(MainActivity.this, radioSize))
                     .into(imageView);
 
+        }
+
+        private void reSizeTextView(TextView textView, String text, float maxWidth) {
+            Paint paint = textView.getPaint();
+            float textWidth = paint.measureText(text);
+            int textSizeInDp = 35;
+
+            if (textWidth > maxWidth) {
+                for (; textSizeInDp > 0; textSizeInDp--) {
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSizeInDp);
+                    paint = textView.getPaint();
+                    textWidth = paint.measureText(text);
+                    if (textWidth <= maxWidth) {
+                        break;
+                    }
+                }
+            }
+            textView.invalidate();
         }
     }
 
@@ -590,4 +615,6 @@ public class MainActivity extends RxAppCompatActivity {
                     }
                 });
     }
+
+
 }
