@@ -44,7 +44,7 @@ public class RoomEntity extends RespondBody<RoomEntity.DataBean> {
              * deleted_at : null
              */
 
-            public int id;
+            public String id;
             public String family_id;
             public String user_id;
             public String name;

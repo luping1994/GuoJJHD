@@ -1,7 +1,5 @@
 package net.suntrans.guojjhd.bean;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by Looney on 2017/11/9.
  * Des:
@@ -11,25 +9,33 @@ public class EnvEntity extends RespondBody<EnvEntity.DataBean> {
 
     public static class DataBean {
 
-        public int id;
-        public String updated_at;
-        public String name;
-        public String image;
-        public String dev_id;
-        public String pm1;
-        public String pm10;
-        public String pm25;
-        public String jiaquan;
-        public String yanwu;
-        public String wendu;
-        public String shidu;
-        public String renyuan;
-        public String x_zhou;
-        public String y_zhou;
-        public String z_zhou;
-        public String zhendong;
-        public String guangzhao;
-        public String daqiya;
-        public String created_at;
+
+        /**
+         * wendu : {"value":"23.85","text":"舒适","unit":"°C","color":"#00c847"}
+         * shidu : {"value":"70.5","text":"舒适","unit":"%Rh","color":"#00ff00"}
+         * jiaquan : {"value":"0.000","text":"清洁","unit":"ug/m³","color":"#2dc221"}
+         * pm25 : {"value":"51.0","text":"轻度","unit":"ug/m³","color":"#2dc221"}
+         */
+
+        public EnvBean wendu;
+        public EnvBean shidu;
+        public EnvBean jiaquan;
+        public EnvBean pm25;
+
+        public static class EnvBean {
+            /**
+             * value : 23.85
+             * text : 舒适
+             * unit : °C
+             * color : #00c847
+             */
+
+            public String value;
+            public String text;
+            public String unit;
+            public String color;
+        }
+
+
     }
 }

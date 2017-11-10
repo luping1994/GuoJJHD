@@ -31,7 +31,7 @@ public class DeviceEntity extends RespondBody<DeviceEntity.DataBean>{
              * status : 1
              * name : 卫生间灯
              */
-            public int id;
+            public String id;
             public String status;
             public String name;
         }

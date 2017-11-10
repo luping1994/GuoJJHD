@@ -103,12 +103,14 @@ public class WelcomeActivity extends BasedActivity {
         @Override
         public void run() {
             startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+            finish();
         }
     };
     private Runnable mainRunable = new Runnable() {
         @Override
         public void run() {
             startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+            finish();
         }
     };
 

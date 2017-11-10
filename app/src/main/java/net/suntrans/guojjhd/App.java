@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.pgyersdk.crash.PgyCrashManager;
+
 /**
  * Created by Looney on 2017/8/31.
  */
@@ -30,6 +32,7 @@ public class App extends Application {
         super.onCreate();
         application = this;
         startService(new Intent(this,MyService.class));
+        PgyCrashManager.register(this);
 
     }
 }

@@ -1,5 +1,6 @@
 package net.suntrans.guojjhd;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -7,6 +8,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,6 +18,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.pgyersdk.update.PgyUpdateManager;
 import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
@@ -22,12 +26,19 @@ import net.suntrans.guojjhd.api.RetrofitHelper;
 import net.suntrans.guojjhd.bean.DeviceEntity;
 import net.suntrans.guojjhd.bean.EnergyEntity;
 import net.suntrans.guojjhd.bean.EnvEntity;
+import net.suntrans.guojjhd.bean.HomeSceneBean;
+import net.suntrans.guojjhd.bean.NormalInfo;
+import net.suntrans.guojjhd.bean.RespondBody;
 import net.suntrans.guojjhd.bean.RoomEntity;
 import net.suntrans.guojjhd.databinding.ActivityMainBinding;
 import net.suntrans.guojjhd.rx.BaseSubscriber;
+import net.suntrans.guojjhd.util.UiUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -43,6 +54,7 @@ public class MainActivity extends RxAppCompatActivity {
     private DeviceAdapter deviceAdapter;
     private RoomAdapter roomAdapter;
     private int radioSize;
+    private List<HomeSceneBean.DataBean.ListsBean> sceneLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,19 +71,75 @@ public class MainActivity extends RxAppCompatActivity {
         heightPixels = metric.heightPixels;
         int densityDpi = metric.densityDpi;
 
-        System.out.println("density=" + density);
-        System.out.println("xdensity=" + metric.xdpi);
-        System.out.println("ydensity=" + metric.ydpi);
-        System.out.println("设备宽度=" + widthPixels);
-        System.out.println("设备宽度2=" + metric1.widthPixels);
-        System.out.println("设备高度2=" + metric1.heightPixels);
-        System.out.println("设备高度=" + heightPixels);
-        System.out.println("设备密度dpi=" + densityDpi);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 EEEE", Locale.CHINESE);
+
+        String format1 = sdf.format(new Date());
+
+        binding.time.setText(format1);
+
+//        System.out.println("density=" + density);
+//        System.out.println("xdensity=" + metric.xdpi);
+//        System.out.println("ydensity=" + metric.ydpi);
+//        System.out.println("设备宽度=" + widthPixels);
+//        System.out.println("设备宽度2=" + metric1.widthPixels);
+//        System.out.println("设备高度2=" + metric1.heightPixels);
+//        System.out.println("设备高度=" + heightPixels);
+//        System.out.println("设备密度dpi=" + densityDpi);
 
         setUpFullScreen();
 
         setUpRecyclerView();
 
+
+        binding.refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getLight();
+                getNormal();
+                getEnergyData();
+                getHomeScene();
+            }
+        });
+
+        binding.goHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setMessage("是否执行该场景?")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (sceneLists != null && sceneLists.size() == 2) {
+
+                                    conScene(sceneLists.get(0).id + "");
+                                    System.out.println(sceneLists.get(0).id);
+                                } else {
+                                    UiUtils.showToast(getApplicationContext(), "无法获取场景");
+                                }
+                            }
+                        }).create().show();
+            }
+        });
+        binding.leaveHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setMessage("是否执行该场景?")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (sceneLists != null && sceneLists.size() == 2) {
+
+                                    conScene(sceneLists.get(1).id + "");
+                                } else {
+                                    UiUtils.showToast(getApplicationContext(), "无法获取场景");
+                                }
+                            }
+                        }).create().show();
+            }
+        });
     }
 
 
@@ -102,6 +170,15 @@ public class MainActivity extends RxAppCompatActivity {
         deviceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (devicesDatas == null || devicesDatas.size() == 0) {
+                    UiUtils.showToast(getApplicationContext(), "请稍后");
+                    return;
+                }
+                if (position == -1) {
+                    UiUtils.showToast(getApplicationContext(), "请稍后");
+                    return;
+                }
+                sendCmd(devicesDatas.get(position).id, devicesDatas.get(position).status.equals("1") ? "0" : "1");
 
             }
         });
@@ -117,7 +194,15 @@ public class MainActivity extends RxAppCompatActivity {
         binding.roomRecyclerView.setAdapter(roomAdapter);
         binding.deviceRecyclerView.setAdapter(deviceAdapter);
         handler.post(envRunable);
-        handler.postDelayed(energyRunable, 500);
+//        handler.postDelayed(energyRunable, 500);
+        PgyUpdateManager.register(this, "net.suntrans.guojjhd.fileProvider");
+
+        getRoom();
+        getLight();
+        getNormal();
+        getHomeScene();
+        getEnergyData();
+
     }
 
     private class RoomAdapter extends BaseQuickAdapter<RoomEntity.DataBean.ListsBean, BaseViewHolder> {
@@ -188,16 +273,28 @@ public class MainActivity extends RxAppCompatActivity {
                 .subscribe(new BaseSubscriber<EnvEntity>(getApplicationContext()) {
                     @Override
                     public void onError(Throwable e) {
-                        super.onError(e);
                     }
 
                     @Override
                     public void onNext(EnvEntity envEntity) {
                         super.onNext(envEntity);
-                        binding.wendu.setText("" + envEntity.data.wendu + "℃");
-                        binding.shidu.setText("湿度：" + envEntity.data.shidu + "%");
-                        binding.jiaquan.setText("甲醛：" + envEntity.data.jiaquan + "ppm");
-                        binding.pm25.setText("PM2.5：" + envEntity.data.pm25 + "");
+                        binding.wendu.setText("" + envEntity.data.wendu.value + envEntity.data.wendu.unit);
+                        binding.shidu.setText("湿度：" + envEntity.data.shidu.value + envEntity.data.shidu.unit);
+                        binding.jiaquan.setText("甲醛：" + envEntity.data.jiaquan.value + envEntity.data.jiaquan.unit);
+                        binding.pm25.setText("PM2.5：" + envEntity.data.pm25.value + envEntity.data.pm25.unit);
+
+                        binding.wenduText.setText(envEntity.data.wendu.text);
+                        binding.wenduText.setTextColor(Color.parseColor(envEntity.data.wendu.color));
+
+                        binding.shiduText.setText(envEntity.data.shidu.text);
+                        binding.shiduText.setTextColor(Color.parseColor(envEntity.data.shidu.color));
+
+                        binding.jiaquanText.setText(envEntity.data.jiaquan.text);
+                        binding.jiaquanText.setTextColor(Color.parseColor(envEntity.data.jiaquan.color));
+
+                        binding.pmText.setText(envEntity.data.pm25.text);
+                        binding.pmText.setTextColor(Color.parseColor(envEntity.data.pm25.color));
+
                     }
                 });
     }
@@ -212,6 +309,9 @@ public class MainActivity extends RxAppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
+                        if (binding.refreshLayout != null) {
+                            binding.refreshLayout.setRefreshing(false);
+                        }
                     }
 
                     @Override
@@ -220,8 +320,11 @@ public class MainActivity extends RxAppCompatActivity {
                         binding.benyueyongdian.setText(envEntity.data.month + "");
                         binding.jinriyongdian.setText(envEntity.data.today + "kW·h");
                         binding.zuoriyongdian.setText(envEntity.data.yesterday + "kW·h");
-                        binding.fuzai.setText(envEntity.data.power + "kW·h");
+                        binding.fuzai.setText(envEntity.data.power + "kW");
 
+                        if (binding.refreshLayout != null) {
+                            binding.refreshLayout.setRefreshing(false);
+                        }
                     }
                 });
     }
@@ -259,11 +362,17 @@ public class MainActivity extends RxAppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
+                        if (binding.refreshLayout != null) {
+                            binding.refreshLayout.setRefreshing(false);
+                        }
                     }
 
                     @Override
                     public void onNext(DeviceEntity envEntity) {
                         super.onNext(envEntity);
+                        if (binding.refreshLayout != null) {
+                            binding.refreshLayout.setRefreshing(false);
+                        }
                         devicesDatas.clear();
                         devicesDatas.addAll(envEntity.data.lists);
                         deviceAdapter.notifyDataSetChanged();
@@ -272,10 +381,132 @@ public class MainActivity extends RxAppCompatActivity {
                 });
     }
 
+    private void getNormal() {
+        RetrofitHelper.getApi()
+                .getNormal()
+                .compose(this.<NormalInfo>bindUntilEvent(ActivityEvent.DESTROY))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BaseSubscriber<NormalInfo>(getApplicationContext()) {
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        e.printStackTrace();
+
+                    }
+
+                    @Override
+                    public void onNext(NormalInfo envEntity) {
+                        super.onNext(envEntity);
+                        List<String> device = envEntity.data.device;
+                        if (device.size() == 3) {
+                            binding.device1.setText(device.get(0));
+                            binding.device2.setText(device.get(1));
+                            binding.device3.setText(device.get(2));
+                            boolean equals = envEntity.data.status.equals("1");
+                            if (equals) {
+
+                                binding.device2Status.setBackgroundResource(R.drawable.green);
+                            } else {
+                                binding.device2Status.setBackgroundResource(R.drawable.red);
+
+                            }
+                        }
+
+                    }
+                });
+    }
+
+    private void getHomeScene() {
+        RetrofitHelper.getApi()
+                .getHomeScene()
+                .compose(this.<HomeSceneBean>bindUntilEvent(ActivityEvent.DESTROY))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BaseSubscriber<HomeSceneBean>(getApplicationContext()) {
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+
+                    }
+
+                    @Override
+                    public void onNext(HomeSceneBean envEntity) {
+                        super.onNext(envEntity);
+                        sceneLists = envEntity.data.lists;
+                        if (sceneLists != null) {
+                            if (sceneLists.size() == 2) {
+                                binding.goHome.setText(sceneLists.get(0).name);
+                                binding.leaveHome.setText(sceneLists.get(1).name);
+                            }
+                        }
+
+                    }
+                });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        getRoom();
-        getLight();
+
+    }
+
+
+    boolean sending = false;
+
+    private void sendCmd(String channel_id, String cmd) {
+        if (sending) {
+            UiUtils.showToast(getApplicationContext(), "请稍后");
+            return;
+        }
+        sending = true;
+        RetrofitHelper.getApi().sendCmd(channel_id, cmd)
+                .compose(this.<RespondBody>bindUntilEvent(ActivityEvent.DESTROY))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BaseSubscriber<RespondBody>(this) {
+                    @Override
+                    public void onNext(RespondBody respondBody) {
+                        super.onNext(respondBody);
+                        sending = false;
+                        if (respondBody.code != 200)
+                            UiUtils.showToast(getApplicationContext(), respondBody.msg);
+                        getLight();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        sending = false;
+                        getLight();
+
+                    }
+                });
+    }
+
+    private void conScene(String sceneid) {
+
+        RetrofitHelper.getApi().conScene(sceneid)
+                .compose(this.<RespondBody>bindUntilEvent(ActivityEvent.DESTROY))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BaseSubscriber<RespondBody>(this) {
+                    @Override
+                    public void onNext(RespondBody respondBody) {
+                        super.onNext(respondBody);
+                        UiUtils.showToast(getApplicationContext(), respondBody.msg);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getLight();
+                            }
+                        },500);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                    }
+                });
     }
 }

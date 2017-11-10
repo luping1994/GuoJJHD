@@ -3,7 +3,7 @@
     <dimen name="textNormalSize">16sp</dimen>
 
 
-    <dimen name="huangjiang_text_size">10dp</dimen>
+    <dimen name="huangjiang_text_size">10sp</dimen>
 
     <dimen name="item_room_width">108dp</dimen>
     <dimen name="item_room_img_width">72dp</dimen>
@@ -20,10 +20,15 @@
 
 
     <dimen name="wendu_text_size">12dp</dimen>
-    <dimen name="wendu_really_text_size">16dp</dimen>
-    <dimen name="wendu_env_text_size">16dp</dimen>
-    <dimen name="yongdianliang_unit_text_size">10dp</dimen>
+    <dimen name="wendu_really_text_size">10sp</dimen>
+    <dimen name="wendu_env_text_size">10sp</dimen>
+    <dimen name="yongdianliang_unit_text_size">10sp</dimen>
     <dimen name="huijia_text_size">14dp</dimen>
     <dimen name="device_status_text_size">12dp</dimen>
+    <dimen name="item_room_detail_textsize">14sp</dimen>
+    <dimen name="env_padding">8dp</dimen>
+    <dimen name="item_room_textsize">8dp</dimen>
+    <dimen name="env_pading2">4dp</dimen>
+    <dimen name="de_margin">10dp</dimen>
 
 </resources>

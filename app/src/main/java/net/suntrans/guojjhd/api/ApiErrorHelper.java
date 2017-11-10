@@ -23,7 +23,10 @@ public class ApiErrorHelper {
         } else if (e instanceof IOException) {
 //            UiUtils.showToast("连接服务器失败");
         } else if (e instanceof ApiException) {
+
             int code = ((ApiException) e).code;
+            System.out.println("sbbbbbbbbbbbbbbbbbbbbbbbbbb="+code);
+
             if (code == ApiErrorCode.UNAUTHORIZED) {
 //                showAlertDialog((BasedActivity) context);
                 UiUtils.showToast(context, "您的身份已过期,请重新登录");

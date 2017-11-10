@@ -8,9 +8,7 @@ public  class RespondBody<T>{
     public int code;
     public T data;
     public String msg;
-
     public boolean isOk(){
-        return code!=401;
+        return code==200;
     }
-
 }

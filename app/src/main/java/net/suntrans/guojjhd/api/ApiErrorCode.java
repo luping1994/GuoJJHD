@@ -6,6 +6,6 @@ package net.suntrans.guojjhd.api;
 
 public class ApiErrorCode {
     public static final int OK=200;
-    public static final int UNAUTHORIZED=401;
+    public static final int UNAUTHORIZED=400;
     public static final int ERROR_NO_INTERNET=-1;
 }

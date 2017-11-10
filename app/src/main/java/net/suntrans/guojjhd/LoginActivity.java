@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.pgyersdk.update.PgyUpdateManager;
 import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
@@ -40,6 +41,8 @@ public class LoginActivity extends BasedActivity implements View.OnClickListener
         account.setText(usernames);
         password.setText(passwords);
         findViewById(R.id.login).setOnClickListener(this);
+
+        PgyUpdateManager.register(this,"net.suntrans.guojjhd.fileProvider");
     }
 
     @Override
