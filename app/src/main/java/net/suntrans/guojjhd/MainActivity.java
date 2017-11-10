@@ -24,6 +24,7 @@ import com.pgyersdk.update.PgyUpdateManager;
 import com.trello.rxlifecycle.android.ActivityEvent;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
+import net.suntrans.guojjhd.api.Api;
 import net.suntrans.guojjhd.api.RetrofitHelper;
 import net.suntrans.guojjhd.bean.DeviceEntity;
 import net.suntrans.guojjhd.bean.EnergyEntity;
@@ -62,12 +63,13 @@ public class MainActivity extends RxAppCompatActivity {
     private long envRefreshTime;
     private long energyRefreshTime;
     private long lightRefreshTime;
+    private Api api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
+        api= RetrofitHelper.getApi();
         envRefreshTime = App.getSharedPreferences().getLong("envRefreshTime",  10*60*1000);
         energyRefreshTime = App.getSharedPreferences().getLong("energyRefreshTime",  10*60*1000);
         lightRefreshTime = App.getSharedPreferences().getLong("lightRefreshTime", 10*60*1000);
@@ -342,7 +344,7 @@ public class MainActivity extends RxAppCompatActivity {
     private Handler handler = new Handler();
 
     private void getEnvData() {
-        RetrofitHelper.getApi()
+        api
                 .getEnvData()
                 .compose(this.<EnvEntity>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -379,7 +381,7 @@ public class MainActivity extends RxAppCompatActivity {
     }
 
     private void getEnergyData() {
-        RetrofitHelper.getApi()
+        api
                 .getEnergyData()
                 .compose(this.<EnergyEntity>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -409,7 +411,7 @@ public class MainActivity extends RxAppCompatActivity {
     }
 
     private void getRoom() {
-        RetrofitHelper.getApi()
+        api
                 .getRoom()
                 .compose(this.<RoomEntity>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -432,7 +434,7 @@ public class MainActivity extends RxAppCompatActivity {
     }
 
     private void getLight() {
-        RetrofitHelper.getApi()
+        api
                 .getLight()
                 .compose(this.<DeviceEntity>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -461,7 +463,7 @@ public class MainActivity extends RxAppCompatActivity {
     }
 
     private void getNormal() {
-        RetrofitHelper.getApi()
+        api
                 .getNormal()
                 .compose(this.<NormalInfo>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -497,7 +499,7 @@ public class MainActivity extends RxAppCompatActivity {
     }
 
     private void getHomeScene() {
-        RetrofitHelper.getApi()
+        api
                 .getHomeScene()
                 .compose(this.<HomeSceneBean>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -539,7 +541,7 @@ public class MainActivity extends RxAppCompatActivity {
             return;
         }
         sending = true;
-        RetrofitHelper.getApi().sendCmd(channel_id, cmd)
+        api.sendCmd(channel_id, cmd)
                 .compose(this.<RespondBody>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -565,7 +567,7 @@ public class MainActivity extends RxAppCompatActivity {
 
     private void conScene(String sceneid) {
 
-        RetrofitHelper.getApi().conScene(sceneid)
+        api.conScene(sceneid)
                 .compose(this.<RespondBody>bindUntilEvent(ActivityEvent.DESTROY))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
