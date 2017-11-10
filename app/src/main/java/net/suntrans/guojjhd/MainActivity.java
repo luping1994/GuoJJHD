@@ -14,6 +14,8 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -39,6 +41,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -55,12 +59,21 @@ public class MainActivity extends RxAppCompatActivity {
     private RoomAdapter roomAdapter;
     private int radioSize;
     private List<HomeSceneBean.DataBean.ListsBean> sceneLists;
+    private long envRefreshTime;
+    private long energyRefreshTime;
+    private long lightRefreshTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        envRefreshTime = App.getSharedPreferences().getLong("envRefreshTime",  10*60*1000);
+        energyRefreshTime = App.getSharedPreferences().getLong("energyRefreshTime",  10*60*1000);
+        lightRefreshTime = App.getSharedPreferences().getLong("lightRefreshTime", 10*60*1000);
+
+        String familyname = App.getSharedPreferences().getString("familyname", "我的家");
+        binding.familyname.setText(familyname);
 
         DisplayMetrics metric = new DisplayMetrics();
         DisplayMetrics metric1 = new DisplayMetrics();
@@ -98,6 +111,30 @@ public class MainActivity extends RxAppCompatActivity {
                 getNormal();
                 getEnergyData();
                 getHomeScene();
+            }
+        });
+
+        binding.exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("是否注销登录?")
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        App.getSharedPreferences().edit()
+                                .putString("password", "")
+                                .commit();
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                }).create().show();
+
             }
         });
 
@@ -193,17 +230,43 @@ public class MainActivity extends RxAppCompatActivity {
         });
         binding.roomRecyclerView.setAdapter(roomAdapter);
         binding.deviceRecyclerView.setAdapter(deviceAdapter);
-        handler.post(envRunable);
+
 //        handler.postDelayed(energyRunable, 500);
         PgyUpdateManager.register(this, "net.suntrans.guojjhd.fileProvider");
 
         getRoom();
-        getLight();
         getNormal();
         getHomeScene();
-        getEnergyData();
 
+        handler.post(envRunable);
+        handler.post(energyRunable);
+        handler.post(lightRunable);
+//        timer1.schedule(task1,envRefreshTime);
+//        timer2.schedule(task2,energyRefreshTime);
+//        timer3.schedule(task3,lightRefreshTime);
     }
+
+    private Timer timer1 = new Timer(true);
+    private Timer timer2 = new Timer(true);
+    private Timer timer3 = new Timer(true);
+    private TimerTask task1 = new TimerTask() {
+        @Override
+        public void run() {
+            getEnvData();
+        }
+    }; private TimerTask task2 = new TimerTask() {
+        @Override
+        public void run() {
+            getEnergyData();
+        }
+    };
+    private TimerTask task3 = new TimerTask() {
+        @Override
+        public void run() {
+            getLight();
+        }
+    };
+
 
     private class RoomAdapter extends BaseQuickAdapter<RoomEntity.DataBean.ListsBean, BaseViewHolder> {
 
@@ -251,14 +314,28 @@ public class MainActivity extends RxAppCompatActivity {
         @Override
         public void run() {
             getEnvData();
-            handler.postDelayed(this, 10000);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 EEEE", Locale.CHINESE);
+
+            String format1 = sdf.format(new Date());
+
+            binding.time.setText(format1);
+            handler.postDelayed(this, envRefreshTime);
+
         }
     };
     private Runnable energyRunable = new Runnable() {
         @Override
         public void run() {
             getEnergyData();
-            handler.postDelayed(this, 30 * 60 * 1000);
+            handler.postDelayed(this, energyRefreshTime);
+        }
+    };
+    private Runnable lightRunable = new Runnable() {
+        @Override
+        public void run() {
+            getLight();
+            handler.postDelayed(this, lightRefreshTime);
         }
     };
 
@@ -278,13 +355,15 @@ public class MainActivity extends RxAppCompatActivity {
                     @Override
                     public void onNext(EnvEntity envEntity) {
                         super.onNext(envEntity);
-                        binding.wendu.setText("" + envEntity.data.wendu.value + envEntity.data.wendu.unit);
-                        binding.shidu.setText("湿度：" + envEntity.data.shidu.value + envEntity.data.shidu.unit);
-                        binding.jiaquan.setText("甲醛：" + envEntity.data.jiaquan.value + envEntity.data.jiaquan.unit);
-                        binding.pm25.setText("PM2.5：" + envEntity.data.pm25.value + envEntity.data.pm25.unit);
 
-                        binding.wenduText.setText(envEntity.data.wendu.text);
-                        binding.wenduText.setTextColor(Color.parseColor(envEntity.data.wendu.color));
+
+                        binding.wendu.setText("" + envEntity.data.wendu.value + envEntity.data.wendu.unit);
+                        binding.shidu.setText("" + envEntity.data.shidu.value + envEntity.data.shidu.unit);
+                        binding.jiaquan.setText("" + envEntity.data.jiaquan.value + envEntity.data.jiaquan.unit);
+                        binding.pm25.setText("" + envEntity.data.pm25.value + envEntity.data.pm25.unit);
+
+//                        binding.wenduText.setText(envEntity.data.wendu.text);
+//                        binding.wenduText.setTextColor(Color.parseColor(envEntity.data.wendu.color));
 
                         binding.shiduText.setText(envEntity.data.shidu.text);
                         binding.shiduText.setTextColor(Color.parseColor(envEntity.data.shidu.color));
@@ -317,7 +396,7 @@ public class MainActivity extends RxAppCompatActivity {
                     @Override
                     public void onNext(EnergyEntity envEntity) {
                         super.onNext(envEntity);
-                        binding.benyueyongdian.setText(envEntity.data.month + "");
+                        binding.benyueyongdian.setText(envEntity.data.month + "kW·h");
                         binding.jinriyongdian.setText(envEntity.data.today + "kW·h");
                         binding.zuoriyongdian.setText(envEntity.data.yesterday + "kW·h");
                         binding.fuzai.setText(envEntity.data.power + "kW");
@@ -500,7 +579,7 @@ public class MainActivity extends RxAppCompatActivity {
                             public void run() {
                                 getLight();
                             }
-                        },500);
+                        }, 500);
                     }
 
                     @Override

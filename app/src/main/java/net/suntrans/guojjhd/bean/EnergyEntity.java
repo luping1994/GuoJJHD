@@ -18,8 +18,8 @@ public class EnergyEntity extends RespondBody<EnergyEntity.DataBean>{
          */
 
         public String power;
-        public double yesterday;
-        public double today;
-        public double month;
+        public String yesterday;
+        public String today;
+        public String month;
     }
 }

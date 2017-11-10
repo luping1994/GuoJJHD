@@ -84,6 +84,10 @@ public class WelcomeActivity extends BasedActivity {
                                         .putString("account", finalAccounts)
                                         .putString("password", finalPasswords)
                                         .putLong("firsttime", System.currentTimeMillis())
+                                        .putLong("envRefreshTime",loginResult.data.timer.sensus )
+                                        .putLong("energyRefreshTime",loginResult.data.timer.ammeter )
+                                        .putLong("lightRefreshTime",loginResult.data.timer.light )
+                                        .putString("familyname",loginResult.data.user.family_name )
                                         .commit();
 
                                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));

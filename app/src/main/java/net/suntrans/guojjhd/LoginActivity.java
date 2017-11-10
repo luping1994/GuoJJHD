@@ -85,6 +85,7 @@ public class LoginActivity extends BasedActivity implements View.OnClickListener
 
                     @Override
                     public void onError(Throwable e) {
+                        super.onError(e);
                         e.printStackTrace();
                         dialog.dismiss();
                     }
@@ -98,6 +99,10 @@ public class LoginActivity extends BasedActivity implements View.OnClickListener
                                 App.getSharedPreferences().edit().putString("access_token", loginResult.data.token.access_token)
                                         .putString("account", finalAccounts)
                                         .putString("password", finalPasswords)
+                                        .putLong("envRefreshTime",loginResult.data.timer.sensus )
+                                        .putLong("energyRefreshTime",loginResult.data.timer.ammeter )
+                                        .putLong("lightRefreshTime",loginResult.data.timer.light )
+                                        .putString("familyname",loginResult.data.user.family_name )
                                         .putLong("firsttime", System.currentTimeMillis())
                                         .commit();
 

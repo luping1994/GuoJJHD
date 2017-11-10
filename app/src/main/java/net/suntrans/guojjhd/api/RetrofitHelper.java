@@ -52,7 +52,7 @@ public class RetrofitHelper {
 
                         String header = App.getSharedPreferences().getString("access_token", "-1");
 //                        System.out.println(header);
-//                        System.out.println(header.length());
+                        System.out.println(header.length());
                         Request original = chain.request();
 
                         RequestBody newBody = original.body();

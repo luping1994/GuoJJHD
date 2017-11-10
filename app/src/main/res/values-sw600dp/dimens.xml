@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="item_room_width">190dp</dimen>
-    <dimen name="item_room_img_width">152dp</dimen>
-    <dimen name="item_room_text_size">105dp</dimen>
+    <dimen name="item_room_width">183dp</dimen>
+    <dimen name="item_room_img_width">150dp</dimen>
+    <dimen name="item_room_text_size">120dp</dimen>
     <dimen name="item_room_img_radio_size">8dp</dimen>
 
 
@@ -11,20 +11,25 @@
 
     <dimen name="item_home_page_devices_size">96dp</dimen>
     <dimen name="item_homepage_devices_img_size">56dp</dimen>
-    <dimen name="item_homepage_devices_text_size">16sp</dimen>
+    <dimen name="item_homepage_devices_text_size">18sp</dimen>
 
 
-    <dimen name="wendu_text_size">14sp</dimen>
-    <dimen name="wendu_really_text_size">18sp</dimen>
+    <dimen name="wendu_text_size">30sp</dimen>
     <dimen name="wendu_env_text_size">16dp</dimen>
     <dimen name="yongdianliang_unit_text_size">14sp</dimen>
     <dimen name="huijia_text_size">18sp</dimen>
     <dimen name="device_status_text_size">18sp</dimen>
-    <dimen name="huangjiang_text_size">14sp</dimen>
+    <dimen name="huangjiang_text_size">20sp</dimen>
+    <dimen name="huangjiang_text_size1">16sp</dimen>
+    <dimen name="dangyue_textsize">9sp</dimen>
     <dimen name="item_room_detail_textsize">18sp</dimen>
     <dimen name="env_padding">12dp</dimen>
-    <dimen name="item_room_textsize">20sp</dimen>
+
+    <dimen name="item_room_textsize">35sp</dimen>
+
     <dimen name="env_pading2">8dp</dimen>
     <dimen name="de_margin">10dp</dimen>
+    <dimen name="exit_button_size">35dp</dimen>
+    <dimen name="title_size">24sp</dimen>
 
 </resources>

@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.trello.rxlifecycle.android.ActivityEvent;
@@ -42,6 +44,7 @@ public class RoomDetailActivity extends BasedActivity {
     private RoomDetailActivity.DeviceAdapter lightAdapter;
     private RoomDetailActivity.DeviceAdapter socketAdapter;
     private String id;
+    private DisplayMetrics metric1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,7 +70,8 @@ public class RoomDetailActivity extends BasedActivity {
                 getData(id);
             }
         });
-
+        metric1 = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(metric1);
     }
 
     private void setUpFullScreen() {
@@ -169,6 +173,12 @@ public class RoomDetailActivity extends BasedActivity {
                     List<DeviceEntity.DataBean.ListsBean> lists = roomDetailEntity.data.socket.lists;
                     socketDatas.addAll(lists);
                 }
+
+                Glide.with(RoomDetailActivity.this)
+                        .load(roomDetailEntity.data.house.img_big)
+                        .override(metric1.widthPixels,metric1.heightPixels)
+                        .into(binding.bg);
+
                 socketAdapter.notifyDataSetChanged();
                 binding.refreshLayout.setRefreshing(false);
 
