@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/item_room_detail_size"
+    android:layout_width="match_parent"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
     android:background="@drawable/item_selector"
-    android:layout_height="match_parent">
+    android:layout_height="@dimen/item_room_detail_size">
 
     <ImageView
         android:id="@+id/image"
@@ -12,7 +14,7 @@
         android:scaleType="centerInside"
         />
 
-    <TextView
+    <net.suntrans.bieshuhd.widgets.SingleLineZoomTextView
         android:layout_marginTop="8dp"
         android:id="@+id/name"
         android:layout_width="wrap_content"
