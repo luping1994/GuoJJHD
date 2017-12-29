@@ -4,9 +4,11 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -42,7 +44,17 @@ public class RoomDetailActivity extends BasedActivity {
     private RoomDetailActivity.DeviceAdapter socketAdapter;
     private String id;
     private DisplayMetrics metric1;
+    private long delay;
 
+
+    private Handler handler = new Handler();
+
+    private Runnable finishRunable = new Runnable() {
+        @Override
+        public void run() {
+            finish();
+        }
+    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +68,8 @@ public class RoomDetailActivity extends BasedActivity {
         id = getIntent().getStringExtra("id");
         String name = getIntent().getStringExtra("name");
 
+        delay = App.getSharedPreferences().getLong("auto",1000*10);
+        handler.postDelayed(finishRunable,delay);
 
         binding.title.setText(name);
         setUpFullScreen();
@@ -68,6 +82,13 @@ public class RoomDetailActivity extends BasedActivity {
         });
         metric1 = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(metric1);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 
     private void setUpFullScreen() {
@@ -97,6 +118,8 @@ public class RoomDetailActivity extends BasedActivity {
         lightAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                handler.removeCallbacksAndMessages(null);
+                handler.postDelayed(finishRunable,delay);
                 if (lightDatas == null || lightDatas.size() == 0)
                     return;
                 if (position == -1)
@@ -107,6 +130,8 @@ public class RoomDetailActivity extends BasedActivity {
         socketAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                handler.removeCallbacksAndMessages(null);
+                handler.postDelayed(finishRunable,delay);
                 if (socketDatas == null || socketDatas.size() == 0)
                     return;
                 if (position == -1)

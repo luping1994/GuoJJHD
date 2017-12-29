@@ -99,6 +99,7 @@ public class LoginActivity extends BasedActivity implements View.OnClickListener
                                         .putString("account", finalAccounts)
                                         .putString("password", finalPasswords)
                                         .putLong("envRefreshTime",loginResult.data.timer.sensus )
+                                        .putLong("auto",loginResult.data.timer.auto )
                                         .putLong("energyRefreshTime",loginResult.data.timer.ammeter )
                                         .putLong("lightRefreshTime",loginResult.data.timer.light )
                                         .putString("familyname",loginResult.data.user.family_name )

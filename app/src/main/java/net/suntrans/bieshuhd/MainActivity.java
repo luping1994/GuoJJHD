@@ -290,7 +290,7 @@ public class MainActivity extends RxAppCompatActivity {
             ImageView imageView = helper.getView(R.id.image);
             TextView textview = helper.getView(R.id.name);
             Glide.with(MainActivity.this)
-                    .load(item.img_url)
+                    .load(item.img_small)
                     .placeholder(R.drawable.ic_room)
                     .transform(new GlideRoundTransform(MainActivity.this, radioSize))
                     .into(imageView);

@@ -50,7 +50,7 @@ public class RoomEntity extends RespondBody<RoomEntity.DataBean> {
             public String name;
             public Object name_en;
             public Object image;
-            public String img_url;
+            public String img_small;
             public String pad_show;
             public Object sensus_id;
             public Object img_id;

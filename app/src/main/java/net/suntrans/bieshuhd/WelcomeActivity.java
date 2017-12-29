@@ -81,6 +81,7 @@ public class WelcomeActivity extends BasedActivity {
                                         .putString("password", finalPasswords)
                                         .putLong("firsttime", System.currentTimeMillis())
                                         .putLong("envRefreshTime",loginResult.data.timer.sensus )
+                                        .putLong("auto",loginResult.data.timer.auto )
                                         .putLong("energyRefreshTime",loginResult.data.timer.ammeter )
                                         .putLong("lightRefreshTime",loginResult.data.timer.light )
                                         .putString("familyname",loginResult.data.user.family_name )

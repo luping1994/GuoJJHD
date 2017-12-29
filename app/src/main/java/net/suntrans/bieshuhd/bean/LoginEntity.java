@@ -37,6 +37,7 @@ public class LoginEntity extends RespondBody<LoginEntity.LoginInfo>{
             public long sensus;
             public long ammeter;
             public long light;
+            public long auto;
 
         }
     }
