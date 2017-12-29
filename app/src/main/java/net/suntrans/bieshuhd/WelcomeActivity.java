@@ -85,9 +85,14 @@ public class WelcomeActivity extends BasedActivity {
                                         .putLong("lightRefreshTime",loginResult.data.timer.light )
                                         .putString("familyname",loginResult.data.user.family_name )
                                         .commit();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                                        finish();
+                                    }
+                                }, 2000);
 
-                                startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-                                finish();
                             } else {
                                 handler.postDelayed(loginRunable, 2000);
                             }
