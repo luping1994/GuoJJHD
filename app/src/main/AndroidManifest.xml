@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.suntrans.bieshuhd">
+    package="net.suntrans.smhome">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="net.suntrans.bieshuhd.App"
+        android:name="net.suntrans.smhome.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,10 +19,10 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="PGYER_APPID"
-            android:value="b19528431801445cd95988629750fa8d" />
+            android:value="9876b99e1b36975e4b6eb71d8722a22b" />
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="net.suntrans.bieshuhd.fileProvider"
+            android:authorities="net.suntrans.smhome.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -30,7 +30,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
         <activity
-            android:name="net.suntrans.bieshuhd.WelcomeActivity"
+            android:name="net.suntrans.smhome.WelcomeActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,21 +40,21 @@
 
         </activity>
         <activity
-            android:name="net.suntrans.bieshuhd.LoginActivity"
+            android:name="net.suntrans.smhome.LoginActivity"
             android:screenOrientation="landscape" />
 
         <activity
-            android:name="net.suntrans.bieshuhd.MainActivity"
+            android:name="net.suntrans.smhome.MainActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="net.suntrans.bieshuhd.RoomDetailActivity"
+            android:name="net.suntrans.smhome.RoomDetailActivity"
             android:screenOrientation="landscape" />
         <activity
             android:screenOrientation="landscape"
-            android:name="net.suntrans.bieshuhd.AlertActivity"
+            android:name="net.suntrans.smhome.AlertActivity"
             android:theme="@style/TranslucentTheme" />
 
-        <service android:name="net.suntrans.bieshuhd.MyService" />
+        <service android:name="net.suntrans.smhome.MyService" />
     </application>
 
 </manifest>

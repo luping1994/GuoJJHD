@@ -13,7 +13,7 @@
         android:scaleType="centerInside"
          />
 
-    <net.suntrans.bieshuhd.widgets.AutofitTextView
+    <net.suntrans.smhome.widgets.AutofitTextView
         android:singleLine="true"
         app:minTextSize="12sp"
         app:sizeToFit="true"

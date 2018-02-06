@@ -17,7 +17,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/ic_room" />
 
-        <net.suntrans.bieshuhd.widgets.SingleLineZoomTextView
+        <net.suntrans.smhome.widgets.SingleLineZoomTextView
             android:layout_centerInParent="true"
             android:id="@+id/name"
             android:layout_width="@dimen/item_room_text_size"

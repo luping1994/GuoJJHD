@@ -1,0 +1,66 @@
+package net.suntrans.smhome.widgets;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+
+/**
+ * Created by Looney on 2018/1/12.
+ * Des:
+ */
+
+public class FullScreenAlertDialog extends AlertDialog {
+
+    protected FullScreenAlertDialog(@NonNull Context context) {
+        super(context);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+
+    }
+
+    protected FullScreenAlertDialog(@NonNull Context context, int themeResId) {
+        super(context, themeResId);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+
+    }
+
+    protected FullScreenAlertDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+        super(context, cancelable, cancelListener);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+
+    }
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Window window = getWindow();
+        if (window != null) {
+            WindowManager m = window.getWindowManager();
+            Display d = m.getDefaultDisplay();  //为获取屏幕宽、高
+            //设置dialog的宽度未matchparent,高度为去掉状态栏和actionbar的高度
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (d.getHeight()*0.9));
+
+            //设置gravity
+            window.setGravity(Gravity.CENTER);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.setNavigationBarColor(Color.TRANSPARENT);
+            }
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
+            getWindow().setAttributes(params);
+        }
+    }
+}

@@ -7,7 +7,7 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="net.suntrans.bieshuhd.MainActivity">
+        tools:context="net.suntrans.smhome.MainActivity">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/home_bg"
             android:orientation="vertical"
-            tools:context="net.suntrans.bieshuhd.MainActivity">
+            tools:context="net.suntrans.smhome.MainActivity">
 
             <RelativeLayout
                 android:id="@+id/toolbar"
@@ -518,7 +518,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:gravity="center|left"
-                            android:text=""
+                            android:text="空调"
                             android:textColor="@color/white"
                             android:textSize="@dimen/device_status_text_size" />
 
@@ -539,10 +539,11 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:minWidth="25dp"
                             android:id="@+id/device2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=""
+                            android:text="空调"
                             android:textColor="@color/white"
                             android:textSize="@dimen/device_status_text_size" />
 
@@ -568,7 +569,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="6"
                             android:gravity="center|left"
-                            android:text=""
+                            android:text="空调"
                             android:textColor="@color/white"
                             android:textSize="@dimen/device_status_text_size" />
 
