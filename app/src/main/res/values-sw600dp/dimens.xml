@@ -2,6 +2,8 @@
 <resources>
     <dimen name="item_room_width">183dp</dimen>
     <dimen name="item_room_img_width">150dp</dimen>
+    <dimen name="item_room_txt_width">50dp</dimen>
+
     <dimen name="item_room_text_size">120dp</dimen>
     <dimen name="item_room_img_radio_size">8dp</dimen>
 

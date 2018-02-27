@@ -8,6 +8,7 @@
 
     <dimen name="item_room_width">108dp</dimen>
     <dimen name="item_room_img_width">72dp</dimen>
+    <dimen name="item_room_txt_width">36dp</dimen>
     <dimen name="item_room_text_size">56dp</dimen>
     <dimen name="item_room_img_radio_size">5dp</dimen>
 
@@ -33,7 +34,7 @@
     <dimen name="env_pading2">4dp</dimen>
     <dimen name="de_margin">10dp</dimen>
     <dimen name="exit_button_size">35dp</dimen>
-    <dimen name="title_size">30sp</dimen>
+    <dimen name="title_size">24sp</dimen>
     <dimen name="wendu_text_size1">15sp</dimen>
     <dimen name="room_tx_bgradius">5</dimen>
 
