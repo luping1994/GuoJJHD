@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -233,6 +234,7 @@ public class MainActivity extends RxAppCompatActivity {
             }
         });
         binding.roomRecyclerView.setAdapter(roomAdapter);
+        binding.roomRecyclerView.setLayoutManager(new FullyGridLayoutManager(this,2, LinearLayoutManager.HORIZONTAL,false));
         binding.deviceRecyclerView.setAdapter(deviceAdapter);
 
 //        handler.postDelayed(energyRunable, 500);

@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 
 import net.suntrans.smhome.rx.RxBus;
 import net.suntrans.smhome.util.LogUtil;
@@ -65,5 +66,6 @@ public class AlertActivity extends BasedActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         LogUtil.i("onNewIntent");
+
     }
 }
