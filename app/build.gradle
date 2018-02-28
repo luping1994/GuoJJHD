@@ -6,8 +6,8 @@ android {
         applicationId "net.suntrans.smhome"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 3
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -41,7 +41,7 @@ public class LoginActivity extends BasedActivity implements View.OnClickListener
         password.setText(passwords);
         findViewById(R.id.login).setOnClickListener(this);
 
-        PgyUpdateManager.register(this,"net.suntrans.bieshuhd.fileProvider");
+        PgyUpdateManager.register(this,"net.suntrans.smhome.fileProvider");
     }
 
     @Override

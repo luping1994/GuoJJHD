@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -83,12 +84,12 @@ public class MainActivity extends RxAppCompatActivity {
         String familyname = App.getSharedPreferences().getString("familyname", "我的家");
         binding.familyname.setText(familyname);
 
-//        DisplayMetrics metric = new DisplayMetrics();
+        DisplayMetrics metric = new DisplayMetrics();
 //        DisplayMetrics metric1 = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getRealMetrics(metric);
+        getWindowManager().getDefaultDisplay().getRealMetrics(metric);
 //        getWindowManager().getDefaultDisplay().getMetrics(metric1);
 //        float density = metric.density;
-//        widthPixels = metric.widthPixels;
+        widthPixels = metric.widthPixels;
 //        heightPixels = metric.heightPixels;
 //        int densityDpi = metric.densityDpi;
 //        System.out.println("density=" + density);
@@ -214,8 +215,8 @@ public class MainActivity extends RxAppCompatActivity {
         radioSize = getResources().getDimensionPixelSize(R.dimen.item_room_img_radio_size);
 
 
-        deviceAdapter = new DeviceAdapter(R.layout.item_devices, devicesDatas);
-        roomAdapter = new RoomAdapter(R.layout.item_room, roomDatas);
+        deviceAdapter = new DeviceAdapter(R.layout.item_devices2, devicesDatas);
+        roomAdapter = new RoomAdapter(R.layout.item_room2, roomDatas);
         deviceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -241,11 +242,11 @@ public class MainActivity extends RxAppCompatActivity {
             }
         });
         binding.roomRecyclerView.setAdapter(roomAdapter);
-        binding.roomRecyclerView.setLayoutManager(new FullyGridLayoutManager(this, 2, LinearLayoutManager.HORIZONTAL, false));
+        binding.roomRecyclerView.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.HORIZONTAL, false));
         binding.deviceRecyclerView.setAdapter(deviceAdapter);
 
 //        handler.postDelayed(energyRunable, 500);
-        PgyUpdateManager.register(this, "net.suntrans.bieshuhd.fileProvider");
+        PgyUpdateManager.register(this, "net.suntrans.smhome.fileProvider");
 
         getRoom();
         getNormal();
@@ -298,6 +299,10 @@ public class MainActivity extends RxAppCompatActivity {
                     .addOnClickListener(R.id.image);
             ImageView imageView = helper.getView(R.id.image);
             TextView textview = helper.getView(R.id.name);
+
+            View view = helper.getView(R.id.root);
+            view.getLayoutParams().width = (int) (widthPixels*0.7635 / 4);
+
             Glide.with(MainActivity.this)
                     .load(item.img_small)
                     .placeholder(R.drawable.ic_room)
@@ -306,23 +311,7 @@ public class MainActivity extends RxAppCompatActivity {
 
         }
 
-        private void reSizeTextView(TextView textView, String text, float maxWidth) {
-            Paint paint = textView.getPaint();
-            float textWidth = paint.measureText(text);
-            int textSizeInDp = 35;
 
-            if (textWidth > maxWidth) {
-                for (; textSizeInDp > 0; textSizeInDp--) {
-                    textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSizeInDp);
-                    paint = textView.getPaint();
-                    textWidth = paint.measureText(text);
-                    if (textWidth <= maxWidth) {
-                        break;
-                    }
-                }
-            }
-            textView.invalidate();
-        }
     }
 
     private class DeviceAdapter extends BaseQuickAdapter<DeviceEntity.DataBean.ListsBean, BaseViewHolder> {
@@ -336,6 +325,9 @@ public class MainActivity extends RxAppCompatActivity {
             ImageView imageView = helper.getView(R.id.image);
             imageView.setBackgroundResource(item.status.equals("1") ? R.drawable.ic_light_on : R.drawable.ic_light_off);
             helper.setText(R.id.name, item.name);
+
+            View view = helper.getView(R.id.root);
+            view.getLayoutParams().width = (int) (widthPixels*78/128 / 8);
         }
     }
 
