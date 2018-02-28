@@ -21,7 +21,7 @@
 
     <dimen name="dangyue_textsize">9sp</dimen>
 
-    <dimen name="wendu_text_size">12dp</dimen>
+    <dimen name="wendu_text_size">12sp</dimen>
     <dimen name="wendu_really_text_size">10sp</dimen>
     <dimen name="wendu_env_text_size">10sp</dimen>
     <dimen name="yongdianliang_unit_text_size">10sp</dimen>

@@ -81,7 +81,7 @@ public class RetrofitHelper {
                 if (mOkHttpClient == null) {
                     mOkHttpClient = new OkHttpClient.Builder()
                             .addInterceptor(netInterceptor)
-                            .addInterceptor(logging)
+//                            .addInterceptor(logging)
                             .addNetworkInterceptor(new StethoInterceptor())
                             .connectTimeout(8, TimeUnit.SECONDS)
                             .build();

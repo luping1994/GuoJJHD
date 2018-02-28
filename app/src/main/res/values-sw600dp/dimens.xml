@@ -3,7 +3,7 @@
     <dimen name="item_room_width">183dp</dimen>
     <dimen name="item_room_img_width">150dp</dimen>
     <dimen name="item_room_text_size">120dp</dimen>
-    <dimen name="item_room_img_radio_size">8dp</dimen>
+    <dimen name="item_room_img_radio_size">64dp</dimen>
 
 
     <dimen name="item_room_detail_size">170dp</dimen>

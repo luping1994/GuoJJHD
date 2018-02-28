@@ -85,13 +85,14 @@ public class MainActivity extends RxAppCompatActivity {
         float density = metric.density;
         widthPixels = metric.widthPixels;
         heightPixels = metric.heightPixels;
+
         int densityDpi = metric.densityDpi;
 //        System.out.println("density=" + density);
 //        System.out.println("xdensity=" + metric.xdpi);
 //        System.out.println("ydensity=" + metric.ydpi);
 //        System.out.println("设备真实宽度=" + widthPixels);
-//        System.out.println("设备宽度2=" + metric1.widthPixels);
-//        System.out.println("设备高度2=" + metric1.heightPixels);
+        System.out.println("设备宽度2=" + metric1.widthPixels);
+        System.out.println("设备高度2=" + metric1.heightPixels);
 //        System.out.println("设备真实高度=" + heightPixels);
 //        System.out.println("设备密度dpi=" + densityDpi);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 EEEE", Locale.CHINESE);
@@ -99,7 +100,6 @@ public class MainActivity extends RxAppCompatActivity {
         String format1 = sdf.format(new Date());
 
         binding.time.setText(format1);
-
 
 
         setUpFullScreen();
@@ -190,14 +190,19 @@ public class MainActivity extends RxAppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
+
+
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
         getWindow().setAttributes(params);
 
-
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 //        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
     }
 
     private void setUpRecyclerView() {
@@ -206,8 +211,8 @@ public class MainActivity extends RxAppCompatActivity {
         radioSize = getResources().getDimensionPixelSize(R.dimen.item_room_img_radio_size);
 
 
-        deviceAdapter = new DeviceAdapter(R.layout.item_devices, devicesDatas);
-        roomAdapter = new RoomAdapter(R.layout.item_room, roomDatas);
+        deviceAdapter = new DeviceAdapter(R.layout.item_devices2, devicesDatas);
+        roomAdapter = new RoomAdapter(R.layout.item_room2, roomDatas);
         deviceAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -236,7 +241,7 @@ public class MainActivity extends RxAppCompatActivity {
         binding.deviceRecyclerView.setAdapter(deviceAdapter);
 
 //        handler.postDelayed(energyRunable, 500);
-        PgyUpdateManager.register(this,"net.suntrans.bieshuhd.fileProvider");
+        PgyUpdateManager.register(this, "net.suntrans.bieshuhd.fileProvider");
 
         getRoom();
         getNormal();
@@ -285,9 +290,13 @@ public class MainActivity extends RxAppCompatActivity {
         @Override
         protected void convert(BaseViewHolder helper, RoomEntity.DataBean.ListsBean item) {
 
-            helper.setText(R.id.name,item.name)
+            helper.setText(R.id.name, item.name+"")
                     .addOnClickListener(R.id.image);
             ImageView imageView = helper.getView(R.id.image);
+
+            View view = helper.getView(R.id.root);
+            view.getLayoutParams().width = (int) (widthPixels*0.7635 / 4);
+
             TextView textview = helper.getView(R.id.name);
             Glide.with(MainActivity.this)
                     .load(item.img_small)
@@ -297,24 +306,9 @@ public class MainActivity extends RxAppCompatActivity {
 
         }
 
-        private void reSizeTextView(TextView textView, String text, float maxWidth) {
-            Paint paint = textView.getPaint();
-            float textWidth = paint.measureText(text);
-            int textSizeInDp = 35;
 
-            if (textWidth > maxWidth) {
-                for (; textSizeInDp > 0; textSizeInDp--) {
-                    textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSizeInDp);
-                    paint = textView.getPaint();
-                    textWidth = paint.measureText(text);
-                    if (textWidth <= maxWidth) {
-                        break;
-                    }
-                }
-            }
-            textView.invalidate();
-        }
     }
+
 
     private class DeviceAdapter extends BaseQuickAdapter<DeviceEntity.DataBean.ListsBean, BaseViewHolder> {
 
@@ -327,6 +321,9 @@ public class MainActivity extends RxAppCompatActivity {
             ImageView imageView = helper.getView(R.id.image);
             imageView.setBackgroundResource(item.status.equals("1") ? R.drawable.ic_light_on : R.drawable.ic_light_off);
             helper.setText(R.id.name, item.name);
+
+            View view = helper.getView(R.id.root);
+            view.getLayoutParams().width = (int) (widthPixels*78/128 / 8);
         }
     }
 

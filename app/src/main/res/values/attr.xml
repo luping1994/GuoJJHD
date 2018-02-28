@@ -9,4 +9,8 @@
         <!-- Defines whether to automatically resize text to fit to the view's bounds. -->
         <attr name="sizeToFit" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="PercentTextView">
+        <attr name="baseScreenHeight" format="integer" />
+    </declare-styleable>
 </resources>
