@@ -71,6 +71,9 @@ public class MainActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         api = RetrofitHelper.getApi();
         envRefreshTime = App.getSharedPreferences().getLong("envRefreshTime", 10 * 60 * 1000);
@@ -189,8 +192,12 @@ public class MainActivity extends RxAppCompatActivity {
         //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.systemUiVisibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE;
@@ -234,7 +241,7 @@ public class MainActivity extends RxAppCompatActivity {
             }
         });
         binding.roomRecyclerView.setAdapter(roomAdapter);
-        binding.roomRecyclerView.setLayoutManager(new FullyGridLayoutManager(this,2, LinearLayoutManager.HORIZONTAL,false));
+        binding.roomRecyclerView.setLayoutManager(new FullyGridLayoutManager(this, 2, LinearLayoutManager.HORIZONTAL, false));
         binding.deviceRecyclerView.setAdapter(deviceAdapter);
 
 //        handler.postDelayed(energyRunable, 500);
@@ -505,21 +512,21 @@ public class MainActivity extends RxAppCompatActivity {
                     public void onNext(NormalInfo envEntity) {
                         super.onNext(envEntity);
                         List<String> device = envEntity.data.device;
-                            if (device.get(0) != null)
-                                binding.device1.setText(device.get(0));
-                            if (device.get(1) != null)
-                                binding.device2.setText(device.get(1));
-                            if (device.get(2) != null)
-                                binding.device3.setText(device.get(2));
-                            boolean equals = envEntity.data.status.equals("1");
-                            if (equals) {
-                                binding.device2Status.setBackgroundResource(R.drawable.green);
-                            } else {
-                                binding.device2Status.setBackgroundResource(R.drawable.red);
-                            }
-                            if (device.size()==1){
+                        if (device.get(0) != null)
+                            binding.device1.setText(device.get(0));
+                        if (device.get(1) != null)
+                            binding.device2.setText(device.get(1));
+                        if (device.get(2) != null)
+                            binding.device3.setText(device.get(2));
+                        boolean equals = envEntity.data.status.equals("1");
+                        if (equals) {
+                            binding.device2Status.setBackgroundResource(R.drawable.green);
+                        } else {
+                            binding.device2Status.setBackgroundResource(R.drawable.red);
+                        }
+                        if (device.size() == 1) {
 
-                            }
+                        }
                     }
                 });
     }
